@@ -1,6 +1,6 @@
 import { useFormik } from "formik"
 import { useAppDispatch } from "store/hooks"
-import { usersSliceActions } from "store/redux/usersSlice/usersSlice"
+import { usersSliceActions } from "store/redux/users/usersSlice"
 
 import Input from "components/Input/Input"
 import Button from "components/Button/Button"
@@ -17,7 +17,14 @@ function Home() {
       age: '',
       jobTitle: ''
     },
-    onSubmit: (values) => { dispatch(usersSliceActions.addUser({ ...values, id: v4() })) }
+    onSubmit: (values, helpers) => {
+      if (!!values.fullName && !!values.age && !!values.jobTitle) {
+        dispatch(usersSliceActions.addUser({ ...values, id: v4() }))
+        helpers.resetForm()
+      } else {
+        alert('Please fiil in all the fields')
+      }
+    }
   })
 
 

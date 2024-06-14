@@ -10,7 +10,13 @@ export const usersSlice = createAppSlice({
   name: 'USERS',
   initialState: usersInitialState,
   reducers: create => ({
-    addUser: create.reducer((state: UsersSliceState, action: PayloadAction<UserData>) => { state.users = [...state.users, action.payload] })
+    addUser: create.reducer((state: UsersSliceState, action: PayloadAction<UserData>) => { state.users = [...state.users, action.payload] }),
+    deleteAllUsers: create.reducer(() => usersInitialState),
+    deleteUser: create.reducer((state: UsersSliceState, action: PayloadAction<string>) => {
+      state.users = state.users.filter((user) => {
+        return user.id !== action.payload
+      })
+    })
   }),
   selectors: {
     users: (state: UsersSliceState) => state.users
